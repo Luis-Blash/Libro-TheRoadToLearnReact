@@ -22,13 +22,23 @@ const list = [
   },
 ];
 
+function isSearched(searchTerm) {
+  return function (item) {
+    return item.title.toLowerCase().includes(searchTerm.toLowerCase());
+  };
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       list: list,
+      searchTerm: "",
     };
+    //metodo para eliminar de la lista
     this.onDismiss = this.onDismiss.bind(this);
+    // metodo para buscar cambios
+    this.onSearchChange = this.onSearchChange.bind(this);
   }
 
   onDismiss(id) {
@@ -43,13 +53,26 @@ class App extends Component {
     ahora lo quitamos y la nueva lista ahora la actualizamos
     const updatedList = this.state.list.filter(isNotId);
     */
+   // setState programa actualizaciones al estado local del componente
     this.setState({ list: updatedList });
   }
 
+  onSearchChange(event) {
+    this.setState({ searchTerm: event.target.value });
+  }
+
+  // el evento de isSearched(this.state.searchTerm), busca concidencia y la pone en tiempo real con thisState
   render() {
     return (
       <div className="App">
-        {this.state.list.map((item) => (
+        <form>
+          <input
+            type="text"
+            placeholder="Texto"
+            onChange={this.onSearchChange}
+          />
+        </form>
+        {this.state.list.filter(isSearched(this.state.searchTerm)).map(item =>
           <div key={item.objectID}>
             <span>
               <a href={item.url}>{item.title}</a>
@@ -66,7 +89,7 @@ class App extends Component {
               </button>
             </span>
           </div>
-        ))}
+        )}
       </div>
     );
   }
