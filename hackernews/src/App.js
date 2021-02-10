@@ -56,7 +56,7 @@ class App extends Component {
     // setState programa actualizaciones al estado local del componente
     this.setState({ list: updatedList });
   }
-
+  // Para el boton
   onSearchChange(event) {
     this.setState({ searchTerm: event.target.value });
   }
@@ -75,18 +75,16 @@ class App extends Component {
   }
 }
 
-class Search extends Component {
-  render() {
-    const { value, onChange, children } = this.props;
-    return (
-      <form>
-        {children}
-        <input type="text" value={value} onChange={onChange} />
-      </form>
-    );
-  }
+// Componente de busqueda
+function Search({ value, onChange, children }) {
+  return (
+    <form>
+      {children} <input type="text" value={value} onChange={onChange} />
+    </form>
+  );
 }
 
+// Compoentes Table
 class Table extends Component {
   render() {
     const { list, pattern, onDismiss } = this.props;
